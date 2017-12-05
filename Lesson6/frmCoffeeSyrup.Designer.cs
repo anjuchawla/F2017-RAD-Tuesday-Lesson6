@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmCoffeeSyrup));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -55,7 +56,12 @@
             this.printPreviewDialog1 = new System.Windows.Forms.PrintPreviewDialog();
             this.printAllDocument = new System.Drawing.Printing.PrintDocument();
             this.printSelectedDocument = new System.Drawing.Printing.PrintDocument();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.menuStrip1.SuspendLayout();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -109,6 +115,8 @@
             this.cboCoffee.Name = "cboCoffee";
             this.cboCoffee.Size = new System.Drawing.Size(193, 24);
             this.cboCoffee.TabIndex = 4;
+            this.toolTip1.SetToolTip(this.cboCoffee, "Choose a flavour");
+            this.cboCoffee.SelectedIndexChanged += new System.EventHandler(this.cboCoffee_SelectedIndexChanged);
             // 
             // lstSyrup
             // 
@@ -164,12 +172,14 @@
             this.tsmiPrintSelected.Name = "tsmiPrintSelected";
             this.tsmiPrintSelected.Size = new System.Drawing.Size(196, 26);
             this.tsmiPrintSelected.Text = "&Print Selected";
+            this.tsmiPrintSelected.Click += new System.EventHandler(this.tsmiPrintSelected_Click);
             // 
             // tsmiPreviewSelected
             // 
             this.tsmiPreviewSelected.Name = "tsmiPreviewSelected";
             this.tsmiPreviewSelected.Size = new System.Drawing.Size(196, 26);
             this.tsmiPreviewSelected.Text = "Preview &Selected";
+            this.tsmiPreviewSelected.Click += new System.EventHandler(this.tsmiPreviewSelected_Click);
             // 
             // tsmiPrintAllFlavours
             // 
@@ -183,14 +193,16 @@
             // tsmiPrintAll
             // 
             this.tsmiPrintAll.Name = "tsmiPrintAll";
-            this.tsmiPrintAll.Size = new System.Drawing.Size(155, 26);
+            this.tsmiPrintAll.Size = new System.Drawing.Size(181, 26);
             this.tsmiPrintAll.Text = "&Print All";
+            this.tsmiPrintAll.Click += new System.EventHandler(this.tsmiPrintAll_Click);
             // 
             // tsmiPreviewAll
             // 
             this.tsmiPreviewAll.Name = "tsmiPreviewAll";
-            this.tsmiPreviewAll.Size = new System.Drawing.Size(155, 26);
+            this.tsmiPreviewAll.Size = new System.Drawing.Size(181, 26);
             this.tsmiPreviewAll.Text = "Pre&view all";
+            this.tsmiPreviewAll.Click += new System.EventHandler(this.tsmiPreviewAll_Click);
             // 
             // toolStripSeparator1
             // 
@@ -227,18 +239,21 @@
             this.tsmiRemoveCoffeeFlavour.Name = "tsmiRemoveCoffeeFlavour";
             this.tsmiRemoveCoffeeFlavour.Size = new System.Drawing.Size(246, 26);
             this.tsmiRemoveCoffeeFlavour.Text = "&Remove Coffee Flavour";
+            this.tsmiRemoveCoffeeFlavour.Click += new System.EventHandler(this.tsmiRemoveCoffeeFlavour_Click);
             // 
             // tsmiClearAll
             // 
             this.tsmiClearAll.Name = "tsmiClearAll";
             this.tsmiClearAll.Size = new System.Drawing.Size(246, 26);
             this.tsmiClearAll.Text = "&Clear All Coffee Flavours";
+            this.tsmiClearAll.Click += new System.EventHandler(this.tsmiClearAll_Click);
             // 
             // tsmiCountCoffeeFlavours
             // 
             this.tsmiCountCoffeeFlavours.Name = "tsmiCountCoffeeFlavours";
             this.tsmiCountCoffeeFlavours.Size = new System.Drawing.Size(246, 26);
             this.tsmiCountCoffeeFlavours.Text = "C&ount Coffee Flavours";
+            this.tsmiCountCoffeeFlavours.Click += new System.EventHandler(this.tsmiCountCoffeeFlavours_Click);
             // 
             // tsmiHelp
             // 
@@ -273,11 +288,35 @@
             // 
             this.printSelectedDocument.PrintPage += new System.Drawing.Printing.PrintPageEventHandler(this.printSelectedDocument_PrintPage);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem,
+            this.exitToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(120, 52);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(175, 24);
+            this.aboutToolStripMenuItem.Text = "&About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.tsmiAbout_Click);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(175, 24);
+            this.exitToolStripMenuItem.Text = "E&xit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
             // frmCoffeeSyrup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(582, 329);
+            this.ContextMenuStrip = this.contextMenuStrip1;
             this.Controls.Add(this.lstSyrup);
             this.Controls.Add(this.cboCoffee);
             this.Controls.Add(this.label4);
@@ -291,6 +330,7 @@
             this.Text = "R \'n R for Reading and Refreshment";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -324,6 +364,10 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiPreviewSelected;
         private System.Windows.Forms.ToolStripMenuItem tsmiPrintAll;
         private System.Windows.Forms.ToolStripMenuItem tsmiPreviewAll;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 

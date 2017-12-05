@@ -24,8 +24,8 @@ namespace Lesson6
         {
             InitializeComponent();
         }
-      
-       
+
+
         /// <summary>
         /// Close/terminate the application
         /// </summary>
@@ -54,7 +54,7 @@ namespace Lesson6
                 verticalPrintLocationFloat);
 
             // Loop through the entire list.
-            //for (int listIndexInteger = 0; listIndexInteger < CoffeeComboBox.Items.Count - 1; listIndexInteger++)
+            //for (int listIndexInteger = 0; listIndexInteger <= CoffeeComboBox.Items.Count - 1; listIndexInteger++)
             foreach (Object flavor in cboCoffee.Items)
             {
                 //increment the  Y position for the next line.
@@ -115,21 +115,21 @@ namespace Lesson6
             information.ShowDialog();
 
         }
-/// <summary>
-/// Allow the user to add a new coffee flavour to the list, if it does not exist
-/// </summary>
-/// <param name="sender"></param>
-/// <param name="e"></param>
+        /// <summary>
+        /// Allow the user to add a new coffee flavour to the list, if it does not exist
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tsmiAddCoffeeFlavour_Click(object sender, EventArgs e)
         {
             bool itemFound;
-            int position ;
+            int position;
 
             //if the user has provided a flavour
-            if(cboCoffee.Text.Trim() != String.Empty)
+            if (cboCoffee.Text.Trim() != String.Empty)
             {
                 itemFound = CheckFlavour(cboCoffee.Text.Trim(), out position);
-                if(itemFound)//flavour already present
+                if (itemFound)//flavour already present
                 {
                     MessageBox.Show("Duplicate Flavour cannot be added.", "Add Failed",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -143,7 +143,8 @@ namespace Lesson6
                 }
 
             }
-            else{
+            else
+            {
                 MessageBox.Show("Enter a coffee flavour to add", "Missing Data",
                     MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 cboCoffee.Focus();
@@ -152,30 +153,163 @@ namespace Lesson6
 
         }
         /// <summary>
-        /// This method searches for a text in the list
+        /// This method searches for a string/flavour in the coffee list
         /// </summary>
-        /// <param name="text">The string to be searched</param>
+        /// <param name="text">The string/flavour to be searched</param>
         /// <param name="position">The position where the string was found, if found</param>
         /// <returns>true if text was found, false otherwise</returns>
         private bool CheckFlavour(string text, out int position)
         {
             position = -1;
 
-           // for(int i =0; i < cboCoffee.Items.Count; i++)
-            foreach(Object item in cboCoffee.Items)
+            // for(int i =0; i < cboCoffee.Items.Count; i++)
+            foreach (Object item in cboCoffee.Items)
             {
                 position++;
-                if(text.Equals(item.ToString().Trim(),StringComparison.CurrentCultureIgnoreCase ))
-                    {
+                if (text.Equals(item.ToString().Trim(), StringComparison.CurrentCultureIgnoreCase))
+                {
                     return true;
 
 
                 }
 
-               
+
             }
 
             return false;
+        }
+        /// <summary>
+        /// 
+        /// Remove an existing flavour from the list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tsmiRemoveCoffeeFlavour_Click(object sender, EventArgs e)
+        {
+            bool itemFound;
+            int position;
+
+            //user types in a flavour to remove
+            if (cboCoffee.SelectedIndex == -1 && cboCoffee.Text.Trim() != String.Empty)
+            {
+                itemFound = CheckFlavour(cboCoffee.Text.Trim(), out position);
+                //if flavour not found
+                if (!itemFound)
+                {
+                    MessageBox.Show("Cannot find the flavour to remove", "Remove Failed", MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    cboCoffee.Focus();
+
+                }
+                else
+                {
+                    //remove the flavour
+                    cboCoffee.Items.RemoveAt(position);
+                    MessageBox.Show("Coffee flavour removed", "Remove Successful",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    cboCoffee.Text = "";
+
+
+                }
+
+            }
+            else
+            {
+                if (cboCoffee.SelectedIndex == -1)//no selection made
+                {
+                    MessageBox.Show("Please select or enter the coffee flavour to remove first", "Remove Failed",
+                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    cboCoffee.Focus();
+                }
+
+                else
+                {
+                    cboCoffee.Items.RemoveAt(cboCoffee.SelectedIndex);
+                    // cboCoffee.Items.Remove(cboCoffee.SelectedItem);
+                    //cboCoffee.Items.Remove(cboCoffee.Items[cboCoffee.SelectedIndex]);
+                    MessageBox.Show("Coffee flavour removed", "Remove Successful",
+                       MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    cboCoffee.Text = "";
+
+                }
+
+            }
+
+
+
+
+
+        }
+
+        private void cboCoffee_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Console.WriteLine("Hello");
+            //cboCoffee.DropDownStyle = ComboBoxStyle.DropDownList;
+        }
+
+        private void tsmiPrintSelected_Click(object sender, EventArgs e)
+        {
+            if (lstSyrup.SelectedIndex == -1)
+            {
+                lstSyrup.SelectedIndex = 0;
+            }
+            if (cboCoffee.SelectedIndex != -1)
+                printSelectedDocument.Print();
+            else
+            {
+                MessageBox.Show("Please select a coffee flavour", "Print Selection Incomplete",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cboCoffee.Focus();
+            }
+        }
+
+        private void tsmiPreviewSelected_Click(object sender, EventArgs e)
+        {
+            if (lstSyrup.SelectedIndex == -1)
+            {
+                lstSyrup.SelectedIndex = 0;
+            }
+            if (cboCoffee.SelectedIndex != -1)
+            {
+                printPreviewDialog1.Document = printSelectedDocument;
+                printPreviewDialog1.ShowDialog();
+            }
+
+            else
+            {
+                MessageBox.Show("Please select a coffee flavour", "Print Selection Incomplete",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cboCoffee.Focus();
+            }
+
+        }
+
+        private void tsmiPrintAll_Click(object sender, EventArgs e)
+        {
+            printAllDocument.Print();
+        }
+
+        private void tsmiPreviewAll_Click(object sender, EventArgs e)
+        {
+            printPreviewDialog1.Document = printAllDocument;
+            printPreviewDialog1.ShowDialog();
+        }
+
+        private void tsmiClearAll_Click(object sender, EventArgs e)
+        {
+            DialogResult confirm = MessageBox.Show("Do you want to remove all flavours?",
+                "Clear Coffee Flavours", MessageBoxButtons.YesNo, MessageBoxIcon.Question,
+                MessageBoxDefaultButton.Button1);
+
+            if (confirm == DialogResult.Yes)
+                cboCoffee.Items.Clear();
+        }
+
+        private void tsmiCountCoffeeFlavours_Click(object sender, EventArgs e)
+        {
+            string message = "The number of coffee flavours available is " + cboCoffee.Items.Count;
+            MessageBox.Show(message, "Coffee Flavours", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
         }
     }
 }
